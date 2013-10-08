@@ -3,7 +3,9 @@ require 'logger'
 ActiveRecord::Base.logger = Logger.new $stderr
 ActiveRecord::Base.logger.level = (ENV['VERBOSE'] == 'true') ? Logger::DEBUG : Logger::INFO
 
-ActiveRecord::Base.mass_assignment_sanitizer = :strict
+if ActiveRecord::VERSION::MAJOR < 4
+  ActiveRecord::Base.mass_assignment_sanitizer = :strict
+end
 
 require 'active_record_inline_schema'
 
