@@ -86,13 +86,13 @@ class DataMiner
       # @option attr_options [*] anything Any option for +DataMiner::Attribute+.
       #
       # @return [nil]
-      def key(attr_name, attr_options = {})
+      def key(attr_name, attr_options = {}, &blk)
         attr_name = attr_name.to_s
         if attributes.has_key? attr_name
           raise "You should only call store or key once for #{model.name}##{attr_name}"
         end
         @key = attr_name
-        store attr_name, attr_options
+        store attr_name, attr_options, &blk
       end
 
       # @private
