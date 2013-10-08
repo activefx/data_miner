@@ -29,6 +29,7 @@ class DataMiner
       'upcase',
       'field_number',
       'chars',
+      'delegate_to'
     ]
 
     DEFAULT_SPLIT_PATTERN = /\s+/
@@ -42,11 +43,11 @@ class DataMiner
 
     # @private
     attr_reader :step
-    
+
     # Local column name.
     # @return [String]
     attr_reader :name
-    
+
     # The block passed to a store argument. Synthesize a value by passing a proc that will receive +row+ and should return a final value.
     #
     # Unlike past versions of DataMiner, you pass this as a block, not with the :synthesize option.
@@ -55,7 +56,7 @@ class DataMiner
     #
     # @return [Proc]
     attr_reader :synthesize
-    
+
     # Index of where to find the data in the row, starting from zero.
     #
     # If you pass a +Range+, then multiple fields will be joined together.
@@ -120,6 +121,7 @@ class DataMiner
       end
       @upcase = options.fetch 'upcase', DEFAULT_UPCASE
       @sprintf = options['sprintf']
+      @model = options['delegate_to']
     end
 
     # @private
@@ -254,7 +256,7 @@ class DataMiner
     private
 
     def model
-      step.model
+      @model ||= step.model
     end
 
     def column_exists?
@@ -274,7 +276,7 @@ class DataMiner
         @text_column_boolean = model.columns_hash[name].text?
       end
     end
-    
+
     def number_column?
       return @number_column_boolean if defined?(@number_column_boolean)
       if hstore?
