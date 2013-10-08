@@ -162,7 +162,7 @@ class DataMiner
           $stderr.puts "#{count}..." if count_every > 0 and count % count_every == 0
           break if count > limit
           count += 1
-          record = @key ? model.send("find_or_initialize_by_#{@key}", attributes[@key].read(row)) : model.new
+          record = @key ? model.send("find_or_initialize_by", @key => attributes[@key].read(row)) : model.new
           attributes.each { |_, attr| attr.set_from_row record, row }
           record.save!
           listeners.select! do |listener|
