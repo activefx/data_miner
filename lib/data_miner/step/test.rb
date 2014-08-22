@@ -1,4 +1,4 @@
-require 'rspec-expectations'
+require 'rspec'
 
 class DataMiner
   class Step
@@ -40,7 +40,7 @@ class DataMiner
         @every = settings['every']
         raise "can't do both after and every" if after and every
       end
-      
+
       # @private
       def start
         if inline?
